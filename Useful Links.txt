@@ -1,0 +1,7 @@
+https://github.com/aw20/jettydesktop 
+http://openbd.org/  OpenBD is the worlds first truly open source and free GPL Java CFML runtime.
+
+http://www.citadel.org/doku.php/start
+http://www.datamation.com/open-source/77-open-source-replacements-for-expensive-applications-2.html
+http://www.datamation.com/open-source/open-source-software-list-ultimate-list-1.html
+http://freeopensourcesoftware.org/

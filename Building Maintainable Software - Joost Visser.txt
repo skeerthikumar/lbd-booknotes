@@ -4,53 +4,53 @@ BUILDING MAINTAINABLE SOFTWARE: TEN GUIDELINES FOR FUTURE PROOF CODE - JOOST VIS
 00.PREFACE:
 ***********
     First, Low maintainability means that developers spend too much time on maintaining and fixing old code.
-    SIG measures system maintainability based on eight metrics - refer Appendix A 
-    
-    Second, lack of maintainability is to a large extent caused by simple issues that occur over and over again. 
-    
+    SIG measures system maintainability based on eight metrics - refer Appendix A
+
+    Second, lack of maintainability is to a large extent caused by simple issues that occur over and over again.
+
     SIG/TÜViT1 Evaluation Criteria for Trusted Product Maintainability, a set of metrics to systematically rate source code maintainability
-    
+
     For instance, Checkstyle (Java), StyleCop+ (for C#), Pylint (for Python),JSHint (for JavaScript), RuboCop (for Ruby), and PMD (covers multiple languages,including C# and Java) all check compliance with the guideline presented in Chapter 2
-    
-    Checkstyle has over 150 rules, but their effect of maintainability is not equal. 
+
+    Checkstyle has over 150 rules, but their effect of maintainability is not equal.
         We have selected the 10 most important guidelines from experience
         We teach how to comply with these 10 guidelines
 
         https://www.sig.eu/en/about-sig/publications/sigtuvit-evaluation-criteria-trusted-product-maintainability/
-        
+
     We present statistics and examples from real-world systems
 
-    SIG Metrics try to avoid below 
+    SIG Metrics try to avoid below
         Metrics that are technology dependent - depth of inheritance for instance is applicable only to OOPS
-        Metrics that are strongly correlated to other metrics - eg. total number of decision points in a system is strongly correlated to code volume 
+        Metrics that are strongly correlated to other metrics - eg. total number of decision points in a system is strongly correlated to code volume
         Metrics that do not differentiate in practice - theoritically sound better but in practice yield almost same value across projects - no point including these
-        
+
     While we introduce and explain a number of refactoring patterns
-    
+
     Generic Names for Elements of Source Code
     Table P-1. A generic grouping of concepts and their representation in Java.
         Generic name        Generic definition                                                          In Java
         Unit                Smallest grouping of lines that can be executed independently               Method or constructor
         Module              Smallest grouping of units Top-level                                        class, interface, or enum
         Component           Top-level division of a system as defined by its software architecture      Not defined by the language
-        System              The entire codebase under study                                             Not definned by the language
+        System              The entire codebase under study                                             Not defined by the language
 
         * From smallest to largest - groupings are ordered from smallest to largest
             Lines Of Code:  any line in source code that ends with an Enter/Return, and neither is empty nor contains only a comment.
-            A statement in JAVA can be spread across multiple lines 
+            A statement in JAVA can be spread across multiple lines
         * Some concepts are not defined in a particular language
-            eg. JAVA  no syntax to describe the boundaries of a system, but there are other ways to acheve this
+            eg. JAVA  no syntax to describe the boundaries of a system, but there are other ways to achieve this
         * Some well-known generic concepts play no role
             Table does not define well-known terms such as subcomponent and subsystem - simple reason - not needed for guidelines
         * Not all grouping constructs of a language are represented
-            A Java package is not the same as a component in the generic terminology. 
-            In very small Java systems, there may be a one-to-one mapping between components and packages. 
+            A Java package is not the same as a component in the generic terminology.
+            In very small Java systems, there may be a one-to-one mapping between components and packages.
             In larger Java systems, there are usually far more packages than components.
         * Build tooling plays no role in the generic terminology
             Apache Ant team has grouping concepts call targets
             Maven team has several POMs
         * Components are determined by the architecture of the system
-            
+
     Code examples can be downloaded from : https://github.com/oreillymedia/building_maintainable_software
     Attribute For example: “Building Maintainable Software: Ten Guidelines for Future-Proof Code by Joost Visser. Copyright 2016 Software Improve‐ment Group B.V., 978-1-4919-5352-5.”
 
@@ -58,18 +58,95 @@ BUILDING MAINTAINABLE SOFTWARE: TEN GUIDELINES FOR FUTURE PROOF CODE - JOOST VIS
 01-INTRODUCTION
 ***************
 
-The ease or difficulty with which a software system can be modified is known as its maintainability. 
+The ease or difficulty with which a software system can be modified is known as its maintainability.
 
-The international standard ISO/IEC 25010:2011 (which we simply call ISO 25010 in this book1) breaks down software quality into eight characteristics: 
+The international standard ISO/IEC 25010:2011 (which we simply call ISO 25010 in this book1) breaks down software quality into eight characteristics:
     maintainability, functional suitability, performance efficiency, compatibility, usability, reliability, security and portability
-    
-Four Types of Software Maintainance
-    Corrective Maintainance: Bugs are discovered and have to be fixed 
-    Adaptive Maintainance: The system has to be adapted to changes in the environment in which it operates—for example, upgrades of the operating system or technologies 
+
+Four Types of Software Maintenance
+    Corrective Maintenance: Bugs are discovered and have to be fixed
+    Adaptive Maintenance: The system has to be adapted to changes in the environment in which it operates—for example, upgrades of the operating system or technologies
     Perfective Maintenance: Users have new / changed requirement
-    Preventive Maintainance: Identify to increase quality or prevent future bugs from occuring
-    
+    Preventive Maintenance: Identify to increase quality or prevent future bugs from occuring
+
     • Maintainability, or lack thereof, has significant business impact.
     • Maintainability is an enabler for other quality characteristics.
 
-    
+Three principles of the guidelines in this book
+    • Maintainability benefits most from adhering to simple guidelines
+    • Maintainability is not an afterthought. Every individual contributions counts from beginning
+    • Some violations are worse than others.
+
+    Some Misunderstandings about Maintainability
+    • Maintainability is language dependent
+    • Maintainability is industry dependent: no matter the domain, the characteristics defined in ISO 25010 still apply.
+    • Maintainability is same as absence of bugs: source code maintainability is not a binary quantity.
+
+Rating Maintainability:
+SIG rates with Star from 1 star (hardest to maintain) to 5 stars (easiest to maintain).
+The distribution of these star ratings among systems from 1 to 5 stars is 5%-30%-30%-30%-5%.
+
+Thus, in the benchmark the systems that are among the top 5% are rated 5 stars.
+
+In these systems, there are still violations to the guidelines, but much fewer than in systems rated below.
+The star ratings serve as a predictor for actual system maintainability.
+SIG has collected empirical evidence that issue resolution and enhancements are twice as fast in systems with 4 stars than in systems with 2 stars.
+
+02-WRITE SHORT UNITS OF CODE
+****************************
+
+Guidelines:
+  • Limit the length of code units to 15 lines of code.
+  • Do this by not writing units that are longer than 15 lines of code in the first place, or by splitting long units into multiple smaller units until each unit has at most 15 lines of code.
+  • This improves maintainability because small units are easy to understand, easy to test, and easy to reuse.
+
+Short units are easy to test
+Short units are easy to analyze
+Short units are easy to reuse (not copy and paste causing duplications)
+
+Using Refactoring Techniques to apply the Guidelines:
+  Refactoring Technique: Extract Method - breakdown to shorter units that makes sense to fit within 15 lines of code
+    Writing shorter units force you to name them properly and they become self explanatory - no additional comments required
+  Refactoring Technique: Replace method with method object
+
+Common Options to writing short units
+  Objection: Having More Units Is Bad for Performance
+    Not a problem nowadays with advanced features of JVM unless same units are called over loop for several times
+    Do not sacrifice maintainability to optimize for performance, unless solid performance tests have proven that you actually have a performance problem and your performance optimization actually makes a difference.
+  Objection: Code Is Harder to Read When Spread Out
+    Well, psychology says that is not the case.
+    Write code that is easy to read and understand for your successors (and for your future self).
+  Guideline Encourages Improper Formatting
+    Agree on formatting conventions in your team.
+    Keep units short and comply with these conventions.
+    Do not cut corners to meet the guidelines
+
+  This Unit Is Impossible to Split Up
+    When a refactoring seems possible but doesn't make sense, rethink the architecture of your system.
+
+  There Is No Visible Advantage in Splitting Units
+    Put code in short units (at most 15 lines of code) that have carefully chosen names that describe their function.
+
+03-WRITE SIMPLE UNITS OF CODE
+*****************************
+Guideline:
+• Limit the number of branch points per unit to 4.
+• Do this by splitting complex units into simpler ones and avoiding complex units altogether.
+• This improves maintainability because keeping the number of branch points low makes units easier to modify and test.
+
+The minimum number of tests needed to cover all independent execution paths of a unit is equal to the number of branch points plus one.
+
+Simple units are easier to understand
+Simple units are easier to test
+
+Use Refactor Patterns:
+Replace Nested Conditional with Guard Clauses pattern
+Replace Conditional with Polymorphism pattern
+
+Common Objections to Writing Simple Units of Code
+Objection: High Complexity Cannot Be Avoided
+  Complexity in domain does not require the technical implementation to be complex as well.
+
+Objection: Splitting Up Methods Does Not Reduce Complexity
+
+Put your code in simple units (at most four branch points) that have carefully chosen names describing their function and cases.

@@ -1,0 +1,93 @@
+Learning Google AppScript
+
+<html>
+	<body>
+		<h4 style="font-family:verdana;"> Shows the ORB Levels for the Day based on High and Low at 
+		   <font color ="Blue"> <script language="javascript">  <!--  var today = new Date();  document.write(today); //--> </script> </font> 
+		</h4> 
+		
+		<?!= include('SS'); ?>
+        
+         
+		<!-- var data = ['NIFTY','BANKNIFTY', 'ACC','AMBUJACEM','ASIANPAINT','AXISBANK','BAJAJ-AUTO','BANKBARODA','BHARTIARTL','BHEL','BPCL','CAIRN','CIPLA','COALINDIA','DLF','DRREDDY','GAIL','GRASIM','HCLTECH','HDFC','HDFCBANK','HEROMOTOCO','HINDALCO','HINDUNILVR','ICICIBANK','IDFC','INDUSINDBK','INFY','ITC','JINDALSTEL','JPASSOCIAT','KOTAKBANK','LT','LUPIN','M&M','MARUTI','NMDC','NTPC','ONGC','PNB','POWERGRID','RANBAXY','RELIANCE','RELINFRA','SBIN','SESAGOA','SUNPHARMA','TATAMOTORS','TATAPOWER','TATASTEEL','TCS','ULTRACEMCO'] ?> -->
+        <? var data = ['NIFTY','BANKNIFTY', 'SBIN','CAIRN','AXISBANK','JINDALSTEL','TATAMOTORS','RCOM','JSWSTEEL','MCDOWELL-N','BANKBARODA','HINDALCO','TATASTEEL','YESBANK','MARUTI','IDFC','JPASSOCIAT'] ?>
+		<table align = "center">
+			<tr class="sec">
+				<td> Symbol </td>
+				<td> ORH </td>
+				<td> ORL </td>
+                
+                <td> CMP </td>
+                <td> Buy Above </td>
+                <td> Tgt1 </td>
+                <td> Tgt2 </td>
+                <td> Tgt3 </td>
+                <td> SL </td>
+                <td> Sell Below </td>
+                <td> Tgt1 </td>
+                <td> Tgt2 </td>
+                <td> Tgt3 </td>
+                <td> SL </td>
+                
+			</tr>
+			<? for (var i = 0; i < data.length; i++) { ?>
+			<tr> 
+				
+				<? var SI = FinanceApp.getStockInfo("NSE:"+data[i])
+                    var end = new Date(); 
+                    var start = new Date(end); 
+                    start.setDate(end.getDate() - 5);
+                    var SH = FinanceApp.getHistoricalStockInfo(data[i], start, end, 1);
+                    
+                      ?>
+                <? if  (SI.change < 0) { ?>
+                    <td class="dn"><?= data[i] ?></td>
+				    <td class="dn"> <?= (SI.high).toFixed(2) ?> </td>                    				    
+                    <td class="dn"> <?= (SI.low).toFixed(2) ?> </td>
+                   
+                <? } else { ?>
+                    <td class="up"><?= data[i] ?></td>
+				    <td class="up"> <?= (SI.high).toFixed(2) ?> </td>                    
+				    <td class="up"> <?= (SI.low).toFixed(2) ?> </td>
+                <? } ?>
+                
+                    <td class="info"> <?= (SI.price).toFixed(2) ?> </td>
+                    <? var bAbv = SI.high + 0.85;
+                       var sBel = SI.low - 0.85;
+                       var TR = SI.high - SI.low;
+                       var ta = bAbv + TR *0.5;
+                       var t1 = bAbv + TR *0.786;
+                       var tb = bAbv + TR;
+                       var t2 = bAbv + TR * 1.382;
+                       var tc = t2 + (ta-bAbv);
+                       var t3 = tc + (t1 - ta);
+                       var td = t3 + (tb - t1);
+                       var t4 = td + (t2 - tb); 
+                       var sl = bAbv - TR * 0.618?>
+        
+                    <td  class ="info" style="background-color: #347C2C"?><font color="white"> <?= bAbv.toFixed(2)?>
+                    <td  class ="info"> <?= ta.toFixed(2)?>
+                    <td  class ="info"> <?= t1.toFixed(2)?>
+                    <td  class ="info"><?= tb.toFixed(2)?>
+                    <td  class ="info" style="background-color: #800000"?><font color="white"> <?= sl.toFixed(2)?>
+                    <?  ta = sBel - TR * 0.5;
+                        t1 = sBel - TR * 0.786;
+                        tb = sBel - TR;
+                        t2 = sBel - TR * 1.382;
+                        tc = t2 - (sBel - ta);
+                        t3 = tc - (ta - t1);
+                        td = t3 - (t1 - tb);
+                        t4 = td - (tb - t2);
+                        sl = sBel + TR *0.618 ?>
+                    <td  class ="info" style="background-color: #FF0000"?><font color="white"> <?= sBel.toFixed(2)?>
+                    <td  class ="info"> <?= ta.toFixed(2)?>
+                    <td  class ="info"> <?= t1.toFixed(2)?>
+                    <td  class ="info"><?= tb.toFixed(2)?>
+                    <td  class ="info" style="background-color: #800000"?><font color="white"> <?= sl.toFixed(2)?>
+
+                    
+			<? } ?>
+			</tr>
+		</table>
+	</body>
+</html>

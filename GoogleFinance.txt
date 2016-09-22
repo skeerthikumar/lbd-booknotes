@@ -1,0 +1,11 @@
+=importhtml("http://www.icharts.in/stock-lists/price-volume-expansions.html", "table",14)   | This yields the list of stocks in the price-volume-expansions of icharts.in
+
+=importhtml("http://www.icharts.in/stock-lists/uptrends.html", "table",14)                  | This yeilds the list of stocks in the uptrend 
+
+=importhtml("http://www.icharts.in/stock-lists/pullback-in-uptrends.html", "table",14)      | This list can be used to trade pullbacks. One should trade pullbacks in strong uptrending stocks only, these stocks have the greatest probability of continuing their uptrend.
+
+
+http://techpaisa.com/strategy/technical/ - 
+
+Strategy 01: Sell when near 200 SMA and below 200 SMA
+Strategy 02: Sell CROMPGREAV when near 200 SMA and below 200 SMA and RSI is below 50
