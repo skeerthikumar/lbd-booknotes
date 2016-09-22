@@ -150,3 +150,35 @@ Objection: High Complexity Cannot Be Avoided
 Objection: Splitting Up Methods Does Not Reduce Complexity
 
 Put your code in simple units (at most four branch points) that have carefully chosen names describing their function and cases.
+
+04-WRITE CODE ONCE
+******************
+Guideline:
+• Do not copy code.
+• Do this by writing reusable, generic code and/or calling existing methods instead.
+• This improves maintainability because when code is copied, bugs need to be fixed at multiple places, which is inefficient and error-prone.
+
+Resist the temptation of gaining a short-term advantage by copying and pasting code.
+For every future adjustment to either duplicate, you will need to revisit all duplicates.
+
+The fundamental problem of duplication is not knowing whether there is another copy of the code that you are analyzing, how many copies exist, and where they are located.
+
+Extract Method refactoring technique used in Chapter 2 might not be useful when we create private methods across multiple classes
+
+Extract Superclass refactoring technique uses this feature by extracting a fragment
+of code lines not just to a method, but to a new class that is the superclass of the
+original class
+
+Common Objections to Avoiding Code Duplication
+
+  • Copying from Another Codebase Should Be Allowed
+      Technically correct, however
+      • The original codebase is still maintained
+          Can be solved by importing the functionality rather than copying
+      • The other code base is no longer maintained and you are working on re-building
+          do not copy as if it is not maintained, it should be having constraints
+  • Slight Variations, and Hence Duplication, Are Unavoidable
+  • This Code Will Never Change
+  • Duplicates of Entire Files Should Be Allowed as Backups
+  • Unit Tests Are Covering Me
+  • Duplication in String Literals Is Unavoidable and Harmless
